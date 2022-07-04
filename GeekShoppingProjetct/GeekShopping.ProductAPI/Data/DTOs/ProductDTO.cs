@@ -1,10 +1,12 @@
-﻿namespace GeekShopping.ProductAPI.Data.ValueObjects
+﻿namespace GeekShopping.ProductAPI.Data.DTOs
 {
-    public class ProductVO
+    public class ProductDTO
     {
+        private string name;
+
         public long Id { get; set; }
 
-        public string Name { get; set; }
+        public string Name { get => name; set => name = value; }
 
         public decimal Price { get; set; }
 
