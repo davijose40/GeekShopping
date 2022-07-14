@@ -43,3 +43,11 @@ C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.Produ
 C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.ProductAPI\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll
 C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.ProductAPI\bin\Debug\net6.0\Swashbuckle.AspNetCore.Annotations.dll
 C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.ProductAPI\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.ProductAPI\bin\Debug\net6.0\Azure.Core.dll
+C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.ProductAPI\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.ProductAPI\bin\Debug\net6.0\Microsoft.Graph.dll
+C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.ProductAPI\bin\Debug\net6.0\Microsoft.Graph.Core.dll
+C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.ProductAPI\bin\Debug\net6.0\Microsoft.Identity.Client.dll
+C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.ProductAPI\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.ProductAPI\bin\Debug\net6.0\System.Memory.Data.dll
+C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.ProductAPI\bin\Debug\net6.0\System.Text.Json.dll
