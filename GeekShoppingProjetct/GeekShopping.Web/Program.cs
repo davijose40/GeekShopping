@@ -11,6 +11,13 @@ builder.Services.AddHttpClient<IProductService, ProductService>(c => c.BaseAddre
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// razor compile when save changes
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
+//if (builder.Environment.IsDevelopment())
+//{
+//    builder.services.mvcBuilder.AddRazorRuntimeCompilation();
+//}
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = "Cookies";
