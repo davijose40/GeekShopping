@@ -7,6 +7,7 @@ using WebApplication = Microsoft.AspNetCore.Builder.WebApplication;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient<IProductService, ProductService>(c => c.BaseAddress = new Uri(builder.Configuration["ServicesUrls:ProductAPI"]));
+builder.Services.AddHttpClient<ICartService, CartService>(c => c.BaseAddress = new Uri(builder.Configuration["ServicesUrls:CartAPI"]));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
