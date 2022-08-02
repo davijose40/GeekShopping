@@ -1,8 +1,8 @@
 
 using AutoMapper;
+using GeekShopping.CartAPI.Config;
 using GeekShopping.CartAPI.Model.Context;
 using GeekShopping.CartAPI.Repository;
-using GeekShopping.CarttAPI.Config;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -19,8 +19,13 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<ICartRepository, CartRepository>();
-
+//builder.Services.AddScoped<ICouponRepository, CouponRepository>();
+                                              
 builder.Services.AddControllers();
+
+//builder.Services.AddHttpClient<ICouponRepository, CouponRepository>(
+//        s => s.BaseAddress = new Uri(builder.Configuration["ServiceUrls:CouponAPI"])
+//    );
 
 //add authorizatio and autenthication slug startup
 builder.Services.AddAuthentication("Bearer")
