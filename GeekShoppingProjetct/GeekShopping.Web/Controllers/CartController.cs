@@ -22,8 +22,7 @@ namespace GeekShopping.Web.Controllers
         [Authorize]
         public async Task<IActionResult> CartIndex()
         {
-            CartViewModel? response = await FindUserCart();
-            return View(response);
+            return View(await FindUserCart());
         }
 
         [HttpPost]
@@ -64,6 +63,12 @@ namespace GeekShopping.Web.Controllers
             if (response) return RedirectToAction(nameof(CartIndex));
             
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Checkout()
+        {
+            return View(await FindUserCart());
         }
 
         private async Task<CartViewModel> FindUserCart() 
