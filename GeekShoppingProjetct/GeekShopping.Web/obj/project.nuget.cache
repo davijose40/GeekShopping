@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "tyjYg4PEzLVKLS4L1RadqJbHIq0Coz254PveuzUQ4ct7ZNyppU9rQEJg2Ky9UTp5gV7pT9kamcYLUZCIBBD8aA==",
+  "dgSpecHash": "U5kjQivnXJuhzyZkYzAylGvu2KYfwjVLe6B5k+kGZ+vVdBcDXkAs0hJIXp3nx2KDfZqfJiSEOW/yj4HVkwD/ZQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\davi_\\source\\repos\\GeekShopping\\GeekShoppingProjetct\\GeekShopping.Web\\GeekShopping.Web.csproj",
   "expectedPackageFiles": [
@@ -51,6 +51,7 @@
     "C:\\Users\\davi_\\.nuget\\packages\\microsoft.netcore.platforms\\2.1.2\\microsoft.netcore.platforms.2.1.2.nupkg.sha512",
     "C:\\Users\\davi_\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\davi_\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
+    "C:\\Users\\davi_\\.nuget\\packages\\nlog\\5.0.1\\nlog.5.0.1.nupkg.sha512",
     "C:\\Users\\davi_\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\davi_\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
     "C:\\Users\\davi_\\.nuget\\packages\\system.collections.immutable\\5.0.0\\system.collections.immutable.5.0.0.nupkg.sha512",

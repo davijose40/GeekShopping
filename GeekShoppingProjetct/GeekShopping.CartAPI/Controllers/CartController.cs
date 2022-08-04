@@ -1,4 +1,6 @@
 using GeekShopping.CartAPI.Data.DTOs;
+using GeekShopping.CartAPI.Messages;
+using GeekShopping.CartAPI.RabbitMQSender;
 using GeekShopping.CartAPI.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +13,12 @@ namespace GeekShopping.CartAPI.Controllers
    public class CartController : ControllerBase
     {
         private ICartRepository _repository;
+        private IRabbitMQMessageSender _rabbitMQMessageSender;
 
-        public CartController(ICartRepository repository)
+        public CartController(ICartRepository repository, IRabbitMQMessageSender rabbitMQMessageSender)
         {
-            _repository = repository ?? throw new ArgumentException(nameof(repository));
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _rabbitMQMessageSender = rabbitMQMessageSender ?? throw new ArgumentNullException(nameof(rabbitMQMessageSender));
         }
 
         [HttpGet("find-cart/{id}")]
@@ -75,6 +79,22 @@ namespace GeekShopping.CartAPI.Controllers
             var status = await _repository.RemoveCoupon(userId);
             if (!status) return NotFound();
             return Ok(status);
+        }
+
+        [HttpPost("checkout")]
+        public async Task<ActionResult<CheckoutHeaderDTO>> Checkout(CheckoutHeaderDTO dto)
+        {
+            //if (dto?.UserId == null) return BadRequest();
+
+            var cart = await _repository.FindCartByUserId(dto.UserId);
+            if (cart == null) return NotFound();
+            dto.CartDetails = cart.CartDetails;
+            dto.DateTime = DateTime.Now;
+
+            // rabbitMQ();
+            _rabbitMQMessageSender.SendMessage(dto, "checkoutqueue");
+
+            return Ok(dto);
         }
     }
 }

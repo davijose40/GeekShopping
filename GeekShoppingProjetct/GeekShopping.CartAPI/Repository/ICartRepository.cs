@@ -1,5 +1,4 @@
 ﻿using GeekShopping.CartAPI.Data.DTOs;
-using GeekShopping.CartAPI.Data.DTOs;
 
 namespace GeekShopping.CartAPI.Repository
 {

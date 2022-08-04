@@ -56,6 +56,10 @@
               "target": "Package",
               "version": "[4.34.0, )"
             },
+            "NLog": {
+              "target": "Package",
+              "version": "[5.0.1, )"
+            },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[6.21.0, )"

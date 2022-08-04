@@ -45,8 +45,8 @@ namespace GeekShopping.Web.Controllers
             {
                 CartHeader = new CartHeaderViewModel
                 {
-                    userId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value,
-                    couponCode = ""
+                    UserId = User.Claims.Where(u => u.Type == "sub")?.FirstOrDefault()?.Value,
+                    CouponCode = ""
                 }
             };
 
