@@ -363,3 +363,4 @@ C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.Web\b
 C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.Web\bin\Debug\net6.0\System.Text.Json.dll
 C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.Web\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
 C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.Web\bin\Debug\net6.0\System.Security.Permissions.dll
+C:\Users\davi_\source\repos\GeekShopping\GeekShoppingProjetct\GeekShopping.Web\bin\Debug\net6.0\NLog.dll

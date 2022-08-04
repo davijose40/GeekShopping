@@ -3,8 +3,8 @@
     public class CartHeaderViewModel
     {
         public long Id { get; set; }
-        public string userId { get; set; }
-        public string couponCode { get; set; }
+        public string UserId { get; set; }
+        public string CouponCode { get; set; }
         public decimal PurchaseAmount { get; set; }
         public decimal DiscountAmount { get; set; }
         public string FirstName { get; set; }

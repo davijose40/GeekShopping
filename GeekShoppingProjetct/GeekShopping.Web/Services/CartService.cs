@@ -76,10 +76,34 @@ namespace GeekShopping.Web.Services
         }
 
 
-        public async Task<CartViewModel> Checkout(CartHeaderViewModel cartHeader, string token)
+        public async Task<CartHeaderViewModel> Checkout(CartHeaderViewModel model, string token)
         {
-            throw new NotImplementedException();
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var response = await _client.PostAsJson($"{BasePath}/checkout", model);
+            if (response.IsSuccessStatusCode)
+            {
+                // if (response.IsSuccessStatusCode && response.Content.Headers.ContentType?.MediaType == "application/problem+json")
+                // {
+                //var json = await response.Content.ReadAsStringAsync();
+
+                //var jsonOptions = new JsonSerializerOptions(JsonSerializerDefaults.Web); //note: cache and reuse this
+                //var problemDetails = JsonSerializer.Deserialize<ProblemDetailsWithErrors>(json, jsonOptions);
+
+                //Console.WriteLine($"Has {problemDetails.Errors?.Count} error(s)");
+                // }
+                return await response.ReadContentAs<CartHeaderViewModel>();
+            }
+            else throw new Exception("Something went wrong when calling API");
         }
       
     }
+    public class ProblemDetailsWithErrors
+    {
+        public string Type { get; set; }
+        public string Title { get; set; }
+        public int Status { get; set; }
+        public string TraceId { get; set; }
+        public Dictionary<string, string[]> Errors { get; set; }
+    }
 }
+
