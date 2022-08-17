@@ -1,4 +1,4 @@
-using GeekShopping.CouponAPI.Data.DTOs;
+using GeekShopping.CartAPI.Data.DTOs;
 using GeekShopping.CouponAPI.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +18,6 @@ namespace GeekShopping.CouponAPI.Controllers
 
 
         [HttpGet("{couponCode}")]
-        [Authorize]
         public async Task<ActionResult<CouponDTO>> GetCouponByCouponCode(string couponCode)
         {
             var coupon = await _repository.GetCouponByCouponCode(couponCode);
