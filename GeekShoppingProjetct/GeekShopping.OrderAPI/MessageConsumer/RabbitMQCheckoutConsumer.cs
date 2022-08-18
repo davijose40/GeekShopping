@@ -1,5 +1,6 @@
 ﻿using GeekShopping.OrderAPI.Messages;
 using GeekShopping.OrderAPI.Model;
+using GeekShopping.OrderAPI.RabbitMQSender;
 using GeekShopping.OrderAPI.Repository;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -13,10 +14,12 @@ namespace GeekShopping.OrderAPI.MessageConsumer
         private readonly OrderRepository _repository;
         private IConnection _connection;
         private IModel _channel;
+        private IRabbitMQMessageSender _rabbitMQMessageSender;
 
-        public RabbitMQCheckoutConsumer(OrderRepository repository)
+        public RabbitMQCheckoutConsumer(OrderRepository repository, IRabbitMQMessageSender rabbitMQMessageSender)
         {
             _repository = repository;
+            _rabbitMQMessageSender = rabbitMQMessageSender;
 
             var factory = new ConnectionFactory
             {
@@ -81,6 +84,26 @@ namespace GeekShopping.OrderAPI.MessageConsumer
                 order.OrderDetails.Add(detail);
             }
             await _repository.AddOrder(order);
+            // aqui chamaria order de pagamente seja ela qual for
+            PaymentDTO payment = new()
+            {
+                Name = order.FirstName + " " + order.LastName,
+                CardNumber = order.CardNumber,
+                CVV = order.CVV,
+                ExpiryMounthYear = order.ExpiryMonthYear,
+                OrderId = order.Id,
+                PurchaseAmount = order.PurchaseAmount,
+                Email= order.Email,
+            };
+            try
+            {
+                _rabbitMQMessageSender.SendMessage(payment, "orderpaymentprocessqueue");
+            }
+            catch (Exception)
+            {
+                // Log de error
+                throw;
+            }
         }
     }
 }
