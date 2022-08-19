@@ -1,6 +1,4 @@
 ﻿using GeekShopping.OrderAPI.Messages;
-using GeekShopping.OrderAPI.Model;
-using GeekShopping.OrderAPI.RabbitMQSender;
 using GeekShopping.OrderAPI.Repository;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -9,17 +7,17 @@ using System.Text.Json;
 
 namespace GeekShopping.OrderAPI.MessageConsumer
 {
-    public class RabbitMQCheckoutConsumer : BackgroundService
+    public class RabbitMQPaymentConsumer : BackgroundService
     {
         private readonly OrderRepository _repository;
         private IConnection _connection;
         private IModel _channel;
-        private IRabbitMQMessageSender _rabbitMQMessageSender;
+        private const string ExchangeName = "FanoutPaymentUpdateExchange";
+        string queueName = "";
 
-        public RabbitMQCheckoutConsumer(OrderRepository repository, IRabbitMQMessageSender rabbitMQMessageSender)
+        public RabbitMQPaymentConsumer(OrderRepository repository)
         {
             _repository = repository;
-            _rabbitMQMessageSender = rabbitMQMessageSender;
 
             var factory = new ConnectionFactory
             {
@@ -30,8 +28,9 @@ namespace GeekShopping.OrderAPI.MessageConsumer
 
             _connection = factory.CreateConnection();
             _channel = _connection.CreateModel();
-            _channel.QueueDeclare(queue: "checkoutqueue", false, false, false, arguments: null);
-
+            _channel.ExchangeDeclare(ExchangeName, ExchangeType.Fanout);
+            queueName = _channel.QueueDeclare().QueueName;
+            _channel.QueueBind(queueName, ExchangeName, "");
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -41,63 +40,22 @@ namespace GeekShopping.OrderAPI.MessageConsumer
             consumer.Received += (channel, evt) =>
             {
                 var content = Encoding.UTF8.GetString(evt.Body.ToArray());
-                CheckoutHeaderDTO dto = JsonSerializer.Deserialize<CheckoutHeaderDTO>(content);
-                ProcessOrder(dto).GetAwaiter().GetResult();
+                UpdatePaymentResultDTO dto = JsonSerializer.Deserialize<UpdatePaymentResultDTO>(content);
+                UpdatePaymentStatus(dto).GetAwaiter().GetResult();
                 _channel.BasicAck(evt.DeliveryTag, false);
             };
 
-            _channel.BasicConsume("checkoutqueue", false, consumer);
+            _channel.BasicConsume(queueName, false, consumer);
             return Task.CompletedTask;
         }
 
-        private async Task ProcessOrder(CheckoutHeaderDTO dto)
+        private async Task UpdatePaymentStatus(UpdatePaymentResultDTO dto)
         {
-            OrderHeader order = new()
-            {
-                UserId = dto.UserId,
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
-                OrderDetails = new List<OrderDetail>(),
-                CardNumber = dto.CardNumber,
-                CouponCode = dto.CouponCode,
-                CVV = dto.CVV,
-                DiscountAmount = dto.DiscountAmount,
-                Email = dto.Email,
-                ExpiryMonthYear = dto.ExpiryMothYear,
-                OrderTime = DateTime.Now,
-                PurchaseAmount = dto.PurchaseAmount,
-                PaymentStatus = false,
-                Phone = dto.Phone,
-                DateTime = dto.DateTime,
-            };
+           
 
-            foreach (var details in dto.CartDetails)
-            {
-                OrderDetail detail = new()
-                {
-                    ProductId = details.ProductId,
-                    ProductName = details.Product.Name,
-                    Price = details.Product.Price,
-                    Count = details.Count,
-                };
-                order.CartTotalItens += details.Count;
-                order.OrderDetails.Add(detail);
-            }
-            await _repository.AddOrder(order);
-            // aqui chamaria order de pagamente seja ela qual for
-            PaymentDTO payment = new()
-            {
-                Name = order.FirstName + " " + order.LastName,
-                CardNumber = order.CardNumber,
-                CVV = order.CVV,
-                ExpiryMounthYear = order.ExpiryMonthYear,
-                OrderId = order.Id,
-                PurchaseAmount = order.PurchaseAmount,
-                Email= order.Email,
-            };
             try
             {
-                _rabbitMQMessageSender.SendMessage(payment, "orderpaymentprocessqueue");
+                await _repository.UpdateOrderPaymentStatus(dto.OrderId, dto.Status);
             }
             catch (Exception)
             {
